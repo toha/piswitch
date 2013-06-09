@@ -11,15 +11,14 @@ PIFLAGS=-Isrc/lib/mongoose -pthread -g
 CFLAGS=-W -Wall
 
 SRCS=$(SRC)/gpio/protocols/modela.c \
-	 $(SRC)/gpio/protocols/modelb.c \
-	 $(SRC)/gpio/gpio.c 
+	 $(SRC)/gpio/protocols/modelb.c
 
 OBJS=$(SRCS:.c=.o)
 
 all: builddir piswitch
 
 piswitch: $(OBJS) 
-	$(CC) $(CFLAGS) $(PIFLAGS) $(SRC)/piswitch.c src/http/http.c src/lib/mongoose/mongoose.c -o $(OUT_DIR)/$(NAME) -ldl
+	$(CC) $(CFLAGS) $(PIFLAGS) $(SRC)/piswitch.c src/http/http.c src/gpio/gpio.c src/lib/mongoose/mongoose.c -o $(OUT_DIR)/$(NAME) -ldl
 #	$(CC) $(CFLAGS) $(SRC)/piswitch.c $(OBJS) $(SRC)/http/http.o -o $(OUT_DIR)/$(NAME)
 
 
