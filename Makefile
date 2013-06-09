@@ -11,8 +11,7 @@ PIFLAGS=-Isrc/lib/mongoose -pthread -g
 CFLAGS=-W -Wall
 
 SRCS=$(SRC)/gpio/protocols/modela.c \
-	 $(SRC)/gpio/protocols/modelb.c \
-	 $(SRC)/gpio/gpio.c 
+	 $(SRC)/gpio/protocols/modelb.c
 
 OBJS=$(SRCS:.c=.o)
 
