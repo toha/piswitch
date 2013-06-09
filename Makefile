@@ -12,7 +12,7 @@ CFLAGS=-c
 all: builddir piswitch
 
 piswitch: http.o gpio.o
-		$(CC) $(SRC)/piswitch.c $(OUT_DIR)/http.o $(OUT_DIR)/gpio.o -o $(OUT_DIR)/piswitch
+		$(CC) -pthread $(SRC)/lib/mongoose.c $(SRC)/piswitch.c $(OUT_DIR)/http.o $(OUT_DIR)/gpio.o -o $(OUT_DIR)/piswitch -ldl
 
 http.o: src/http/http.c
 		$(CC) $(CFLAGS) $(SRC)/http/http.c -o $(OUT_DIR)/http.o
