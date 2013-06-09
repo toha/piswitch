@@ -7,23 +7,23 @@ CROSS_COMPILE=arm-linux-gnueabi-
 ARCH=arm 
 CC=${CROSS_COMPILE}gcc-4.6
 
-CFLAGS=-c
+CFLAGS=-c -Wall
 
 all: builddir piswitch
 
 piswitch: http.o gpio.o
 		$(CC) $(SRC)/piswitch.c $(OUT_DIR)/http.o $(OUT_DIR)/gpio.o -o $(OUT_DIR)/piswitch
 
-http.o: src/http/http.c
+http.o: 
 		$(CC) $(CFLAGS) $(SRC)/http/http.c -o $(OUT_DIR)/http.o
 
 gpio.o: modela.o modelb.o
 		$(CC) $(CFLAGS) $(SRC)/gpio/gpio.c -o $(OUT_DIR)/gpio.o
 
-modela.o: src/gpio/protocols/modela.c
+modela.o: 
 		$(CC) $(CFLAGS) $(SRC)/gpio/protocols/modela.c -o $(OUT_DIR)/modela.o
 
-modelb.o: src/gpio/protocols/modelb.c
+modelb.o:
 		$(CC) $(CFLAGS) $(SRC)/gpio/protocols/modelb.c -o $(OUT_DIR)/modelb.o
 
 # create build dir
