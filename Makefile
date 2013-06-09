@@ -5,14 +5,14 @@ SRC=src
 
 CROSS_COMPILE=arm-linux-gnueabi-
 ARCH=arm 
-CC=${CROSS_COMPILE}gcc-4.6
+CC=${CROSS_COMPILE}gcc
 
 CFLAGS=-c -Wall
 
 all: builddir piswitch
 
 piswitch: http.o gpio.o
-		$(CC) $(SRC)/piswitch.c $(OUT_DIR)/http.o $(OUT_DIR)/gpio.o -o $(OUT_DIR)/piswitch
+		$(CC) -pthread $(SRC)/lib/mongoose.c $(SRC)/piswitch.c $(OUT_DIR)/http.o $(OUT_DIR)/gpio.o -o $(OUT_DIR)/piswitch -ldl
 
 http.o: 
 		$(CC) $(CFLAGS) $(SRC)/http/http.c -o $(OUT_DIR)/http.o
