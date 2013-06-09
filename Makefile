@@ -5,7 +5,7 @@ SRC=src
 
 CROSS_COMPILE=arm-linux-gnueabi-
 ARCH=arm 
-CC=${CROSS_COMPILE}gcc-4.6
+CC=${CROSS_COMPILE}gcc
 
 CFLAGS=-c
 
