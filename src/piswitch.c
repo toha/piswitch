@@ -1,7 +1,8 @@
 #include <stdio.h>
 
-main()
+int main()
 {
       printf("\nPiSwitch\n");
+      return 0;
 }
 
