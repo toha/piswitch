@@ -1,0 +1,3 @@
+[submodule "rcswitch"]
+        path = src/rcswitch
+	url = git@github.com:toha/rcswitch-pi.git
