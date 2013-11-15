@@ -21,7 +21,7 @@ int begin_request_handler(struct mg_connection *conn) {
             content_length, content);
 
   // Returning non-zero tells mongoose that our function has replied to
-  // the client, and mongoose should not send client any more data.
+  // the client , and mongoose should not send client any more data.
   return 1;
 }
 

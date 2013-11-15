@@ -26,6 +26,9 @@
 
 #include "RCSwitch.h"
 #include <sys/time.h>
+
+
+void (*RCSwitch::fnReceiveCallback)(unsigned int, unsigned long) = NULL;
 unsigned long RCSwitch::nReceivedValue = NULL;
 unsigned int RCSwitch::nReceivedBitlength = 0;
 unsigned int RCSwitch::nReceivedDelay = 0;
@@ -503,9 +506,6 @@ void RCSwitch::enableReceive(int interrupt) {
 }
 
 
-
-
-
 /**
  *
  */
@@ -541,11 +541,12 @@ bool RCSwitch::receiveProtocol1(unsigned int changeCount){
           }
       }      
       code = code >> 1;
-    if (changeCount > 6) {    // ignore < 4bit values as there are no devices sending 4bit values => noise
+    if (changeCount > 6 && code != 0) {
       RCSwitch::nReceivedValue = code;
       RCSwitch::nReceivedBitlength = changeCount / 2;
       RCSwitch::nReceivedDelay = delay;
       RCSwitch::nReceivedProtocol = 1;
+			(*RCSwitch::fnReceiveCallback)(RCSwitch::nReceivedProtocol, code);
     }
 
     if (code == 0){
@@ -564,9 +565,15 @@ bool RCSwitch::receiveProtocol2(unsigned int changeCount){
 
       for (int i = 1; i<changeCount ; i=i+2) {
       
-          if (RCSwitch::timings[i] > delay-delayTolerance && RCSwitch::timings[i] < delay+delayTolerance && RCSwitch::timings[i+1] > delay*2-delayTolerance && RCSwitch::timings[i+1] < delay*2+delayTolerance) {
+          if (RCSwitch::timings[i] > delay-delayTolerance 
+		 			 && RCSwitch::timings[i] < delay+delayTolerance 
+					 && RCSwitch::timings[i+1] > delay*2-delayTolerance 
+					 && RCSwitch::timings[i+1] < delay*2+delayTolerance) {
             code = code << 1;
-          } else if (RCSwitch::timings[i] > delay*2-delayTolerance && RCSwitch::timings[i] < delay*2+delayTolerance && RCSwitch::timings[i+1] > delay-delayTolerance && RCSwitch::timings[i+1] < delay+delayTolerance) {
+          } else if (RCSwitch::timings[i] > delay*2-delayTolerance 
+									&& RCSwitch::timings[i] < delay*2+delayTolerance 
+									&& RCSwitch::timings[i+1] > delay-delayTolerance 
+									&& RCSwitch::timings[i+1] < delay+delayTolerance) {
             code+=1;
             code = code << 1;
           } else {
@@ -576,11 +583,12 @@ bool RCSwitch::receiveProtocol2(unsigned int changeCount){
           }
       }      
       code = code >> 1;
-    if (changeCount > 6) {    // ignore < 4bit values as there are no devices sending 4bit values => noise
+    if (changeCount > 6 && code != 0) {
       RCSwitch::nReceivedValue = code;
       RCSwitch::nReceivedBitlength = changeCount / 2;
       RCSwitch::nReceivedDelay = delay;
-	  RCSwitch::nReceivedProtocol = 2;
+	  	RCSwitch::nReceivedProtocol = 2;
+			(*RCSwitch::fnReceiveCallback)(RCSwitch::nReceivedProtocol, code);
     }
 
 	if (code == 0){
@@ -621,11 +629,12 @@ bool RCSwitch::receiveProtocol3(unsigned int changeCount){
           }
       }      
       code = code >> 1;
-      if (changeCount > 6) {    // ignore < 4bit values as there are no devices sending 4bit values => noise
+      if (changeCount > 6 && code != 0) {
         RCSwitch::nReceivedValue = code;
         RCSwitch::nReceivedBitlength = changeCount / 2;
         RCSwitch::nReceivedDelay = delay;
         RCSwitch::nReceivedProtocol = 3;
+				(*RCSwitch::fnReceiveCallback)(RCSwitch::nReceivedProtocol, code);
       }
 
       if (code == 0){
@@ -661,11 +670,13 @@ bool RCSwitch::receiveProtocol4(unsigned int changeCount){
     }
   }      
   code = code >> 1;
-  if (changeCount/2 >= 24) {
+  if (changeCount/2 >= 24 && code != 0) {
     RCSwitch::nReceivedValue = code;
     RCSwitch::nReceivedBitlength = changeCount / 2;
     RCSwitch::nReceivedDelay = delay;
     RCSwitch::nReceivedProtocol = 4;
+
+		(*RCSwitch::fnReceiveCallback)(RCSwitch::nReceivedProtocol, code);
   }
 
   if (code == 0){
@@ -699,11 +710,12 @@ bool RCSwitch::receiveProtocol5(unsigned int changeCount){
     }
   }      
   code = code >> 1;
-  if (changeCount/2 >= 15) {
+  if (changeCount/2 >= 15 && code != 0) {
     RCSwitch::nReceivedValue = code;
     RCSwitch::nReceivedBitlength = changeCount / 2;
     RCSwitch::nReceivedDelay = delay;
     RCSwitch::nReceivedProtocol = 5;
+		(*RCSwitch::fnReceiveCallback)(RCSwitch::nReceivedProtocol, code);
   }
 
   if (code == 0){

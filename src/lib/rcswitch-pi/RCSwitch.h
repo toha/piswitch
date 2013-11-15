@@ -88,7 +88,7 @@ class RCSwitch {
 		void setProtocol(int nProtocol, int nPulseLength);
     static unsigned int timings[RCSWITCH_MAX_CHANGES]; 
 
-		unsigned long getMicros();
+		static unsigned long getMicros();
 		static bool receiveProtocol1(unsigned int changeCount);
 		static bool receiveProtocol2(unsigned int changeCount);
 		static bool receiveProtocol3(unsigned int changeCount);
@@ -100,11 +100,12 @@ class RCSwitch {
     int nRepeatTransmit;
 		char nProtocol;
 
-	static int nReceiveTolerance;
+		static void (*fnReceiveCallback)(unsigned int, unsigned long);
+		static int nReceiveTolerance;
     static unsigned long nReceivedValue;
     static unsigned int nReceivedBitlength;
-	static unsigned int nReceivedDelay;
-	static unsigned int nReceivedProtocol; 
+		static unsigned int nReceivedDelay;
+		static unsigned int nReceivedProtocol; 
 
   private:
     char* getCodeWordB(int nGroupNumber, int nSwitchNumber, boolean bStatus);
