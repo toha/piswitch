@@ -1,5 +1,8 @@
 #include "http.h"
 
+
+struct mg_context *webctx;
+
 // This function will be called by mongoose on every new request.
 int begin_request_handler(struct mg_connection *conn) {
   char content[100];
@@ -22,26 +25,21 @@ int begin_request_handler(struct mg_connection *conn) {
   return 1;
 }
 
-int startweb(void) {
-  struct mg_context *ctx;
+void startweb(void) {
+  
   struct mg_callbacks callbacks;
 
   // List of options. Last element must be NULL.
-  const char *options[] = {"listening_ports", "8080", NULL};
+  const char *options[] = {"listening_ports", "1338", NULL};
 
   // Prepare callbacks structure. We have only one callback, the rest are NULL.
   memset(&callbacks, 0, sizeof(callbacks));
   callbacks.begin_request = begin_request_handler;
 
   // Start the web server.
-  ctx = mg_start(&callbacks, NULL, options);
+  webctx = mg_start(&callbacks, NULL, options);
+}
 
-  // Wait until user hits "enter". Server is running in separate thread.
-  // Navigating to http://localhost:8080 will invoke begin_request_handler().
-  getchar();
-
-  // Stop the server.
-  mg_stop(ctx);
-
-  return 0;
+void stopweb(void) {
+	 mg_stop(webctx);
 }

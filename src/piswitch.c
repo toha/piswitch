@@ -1,34 +1,25 @@
 #include "piswitch.h"
-#include <wiringPi.h>
-#include "lib/rcswitch-pi/RCSwitch.h"
+
 int main()
 {
 	printf("\nPiSwitch\n");
-	//startweb();
 
-	wiringPiSetup();
-	RCSwitch mySwitch = RCSwitch();
-	mySwitch.enableReceive(0);
+	startweb();
 
-	while(1) {
-
-		if (mySwitch.available()) {
-			//printf("joo\n");
-			unsigned long value = mySwitch.getReceivedValue();
-		
-			if (value == 0) {
-			  printf("Unknown encoding\n");
-			} else {
-			  printf("Value: %lu, Protocol: %i", value, mySwitch.getReceivedProtocol());
-			  printf("\n");
-			}
-
-
-			mySwitch.resetAvailable();
+	int recpid;
+	recpid = fork();
+	if (recpid == 0) {
+		// child
+		startRfReceive();
+	} else if (recpid > 0) { 
+		// parent
+		while(1) {
+			sleep(1);
 		}
-
+	} else {   
+	  fprintf (stderr, "Error");
+	  exit (1);
 	}
 
-    return 0;
+	return 0;
 }
-

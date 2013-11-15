@@ -1,5 +1,4 @@
 MKDIR_P = mkdir -p
-
 NAME=piswitch
 OUT_DIR=build
 SRC=src
@@ -10,16 +9,23 @@ CC=g++
 
 PIFLAGS=-Isrc/lib/mongoose -pthread -g
 CFLAGS=-W -Wall -fpermissive
+LDFLAGS=-ldl -L/usr/local/lib -lwiringPi -lwiringPiDev -lpthread -lm
 
-SRCS=$(SRC)/gpio/protocols/modela.c \
-	 $(SRC)/gpio/protocols/modelb.c
-
-OBJS=$(SRCS:.c=.o)
+SRCS=$(SRC)/rf/receive.c $(SRC)/lib/rcswitch-pi/RCSwitch.cpp $(SRC)/http/http.c $(SRC)/lib/mongoose/mongoose.c
+OBJS=$(SRC)/rf/receive.o $(SRC)/lib/rcswitch-pi/RCSwitch.o $(SRC)/http/http.o $(SRC)/lib/mongoose/mongoose.o
 
 all: builddir piswitch
 
 piswitch: $(OBJS) 
-	$(CC) $(CFLAGS) $(PIFLAGS) $(SRC)/piswitch.c $(SRC)/lib/rcswitch-pi/RCSwitch.cpp -o $(OUT_DIR)/$(NAME) -ldl -L/usr/local/lib -lwiringPi -lwiringPiDev -lpthread -lm
+	$(CC) $(CFLAGS) $(LDFLAGS) $(PIFLAGS) $(SRC)/piswitch.c -o $(OUT_DIR)/$(NAME) $(OBJS) 
+
+receive.o: $(SRC)/rf/receive.c
+
+http.o: $(SRC)/http/http.c
+
+mongoose.o: $(SRC)/lib/mongoose/mongoose.c 
+
+RCSwitch.o: $(SRC)/lib/rcswitch-pi/RCSwitch.cpp
 
 # create build dir
 builddir: ${OUT_DIR}
@@ -29,8 +35,6 @@ ${OUT_DIR}:
 
 clean:
 	@- $(RM) $(OBJS)
-	@- $(RM) src/lib/mongoose/mongoose.a
-	@- $(RM) src/http/http.o
 	@- $(RM) -rf $(OUT_DIR)
 
 .PHONY: builddir all clean
