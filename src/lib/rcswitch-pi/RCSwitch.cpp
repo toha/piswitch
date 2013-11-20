@@ -27,7 +27,6 @@
 #include "RCSwitch.h"
 #include <sys/time.h>
 
-
 void (*RCSwitch::fnReceiveCallback)(unsigned int, unsigned long) = NULL;
 unsigned long RCSwitch::nReceivedValue = NULL;
 unsigned int RCSwitch::nReceivedBitlength = 0;
@@ -35,6 +34,27 @@ unsigned int RCSwitch::nReceivedDelay = 0;
 unsigned int RCSwitch::nReceivedProtocol = 0;
 unsigned int RCSwitch::timings[RCSWITCH_MAX_CHANGES];
 int RCSwitch::nReceiveTolerance = 60;
+
+static char* bin2tristate(char* bin) {
+	char returnValue[50];
+	int pos = 0;
+	int pos2 = 0;
+	while (bin[pos]!='\0' && bin[pos+1]!='\0') {
+		if (bin[pos]=='0' && bin[pos+1]=='0') {
+			returnValue[pos2] = '0';
+		} else if (bin[pos]=='1' && bin[pos+1]=='1') {
+			returnValue[pos2] = '1';
+		} else if (bin[pos]=='0' && bin[pos+1]=='1') {
+			returnValue[pos2] = 'F';
+		} else {
+			return "not applicable\0";
+		}
+		pos = pos+2;
+		pos2++;
+	}
+	returnValue[pos2] = '\0';
+	return returnValue;
+}
 
 RCSwitch::RCSwitch() {
   this->nReceiverInterrupt = -1;
