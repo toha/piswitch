@@ -5,10 +5,11 @@ SRC=src
 #CROSS_COMPILE=arm-linux-gnueabi-
 ARCH=arm
 #CC=${CROSS_COMPILE}gcc
-CC=g++
+CC=gcc
 
 PIFLAGS=-Isrc/lib/mongoose -pthread -g
-CFLAGS=-W -Wall -fpermissive
+#CFLAGS=-W -Wall -fpermissive
+CFLAGS=-W -Wall -std=c99
 LDFLAGS=-ldl -L/usr/local/lib -lwiringPi -lwiringPiDev -lpthread -lm
 
 SRCS=$(SRC)/rf/rx.c $(SRC)/rf/tx.c $(SRC)/rf/protocol.c $(SRC)/rf/protocol1.c $(SRC)/rf/protocol2.c $(SRC)/rf/protocol3.c $(SRC)/rf/protocol4.c $(SRC)/rf/protocol5.c $(SRC)/http/http.c $(SRC)/lib/mongoose/mongoose.c $(SRC)/helper.c
