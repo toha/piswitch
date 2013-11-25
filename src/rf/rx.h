@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <wiringPi.h>
-#include "../lib/rcswitch-pi/RCSwitch.h"
+//include "../lib/rcswitch-pi/RCSwitch.h"
 #include "../helper.h"
 
 void recvCallback(unsigned int, unsigned long);

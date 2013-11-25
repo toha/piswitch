@@ -6,12 +6,12 @@ int main()
 
 	startweb();
 
-	protocol_t *test1;
-	test1 = malloc(sizeof *test1);
+	/*protocol_t* test1;
+	test1 = (protocol_t*) malloc(sizeof *test1);
 	if (test1 != NULL) {
 		test1->type = PROTOCOL5;
-		protocol5 *b;
-		b = malloc(sizeof *b);
+		protocol5* b;
+		b = (protocol5*) malloc(sizeof *b);
 
 		b->network = 999;
 		b->address = 1;
@@ -26,8 +26,7 @@ int main()
 		free(b);
 	}
 
-	free(test1);
-
+	free(test1);*/
 
 	int recpid;
 	recpid = fork();

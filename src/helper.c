@@ -18,3 +18,9 @@ void printBits(size_t const size, void const * const ptr)
     }
     puts("");
 }
+
+unsigned long getMicros() {
+    struct timeval tv;
+    gettimeofday(&tv,NULL);
+    return 1000000 * tv.tv_sec + tv.tv_usec;
+}

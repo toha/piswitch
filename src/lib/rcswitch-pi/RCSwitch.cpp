@@ -758,11 +758,10 @@ void handleInterrupt (void) {
   static unsigned int changeCount;
   static unsigned long lastTime;
   static unsigned int repeatCount;
-  
 
   unsigned long time = getMicros();
   duration = time - lastTime;
- 
+
   if (duration > 5000 && duration > RCSwitch::timings[0] - 200 && duration < RCSwitch::timings[0] + 200) {
     repeatCount++;
     changeCount--;
@@ -772,7 +771,7 @@ void handleInterrupt (void) {
           if (RCSwitch::receiveProtocol3(changeCount) == false){
 	          if (RCSwitch::receiveProtocol4(changeCount) == false){
 		          if (RCSwitch::receiveProtocol5(changeCount) == false){
-           
+           			
 							}
 						}
           }
