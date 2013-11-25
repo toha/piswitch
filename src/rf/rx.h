@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdbool.h> 
 #include <wiringPi.h>
 //include "../lib/rcswitch-pi/RCSwitch.h"
 #include "../helper.h"

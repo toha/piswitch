@@ -1,16 +1,19 @@
 #ifndef _PROTOCOL4_H_
 #define _PROTOCOL4_H_
 
+#include <stdio.h>
+#include "../helper.h"
+
 typedef struct
 {
-	unsigned long network;
+	unsigned int network;
 	unsigned int address;
-	unsigned int broadcast;
-	unsigned int state;
-	unsigned int dimmer;		
+	unsigned long magic;
 } protocol4;
 
-void tx_data_protocol4 (protocol4* data);
-
+int tx_data_protocol4 (protocol4* self);
+protocol4* rx_data_protocol4 (unsigned int timings[], int change_count);
+int rx_decode_protocol4(protocol4* self, unsigned long code);
+protocol4* json2protocol4 (protocol4* self);
 
 #endif

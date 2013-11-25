@@ -534,13 +534,6 @@ bool RCSwitch::receiveProtocol1(unsigned int changeCount){
       unsigned long code = 0;
       unsigned long delay = RCSwitch::timings[0] / 31;
       unsigned long delayTolerance = delay * RCSwitch::nReceiveTolerance * 0.01;    
-/*			printf("delay: %lu\n", delay);
-			printf("delayTolerance: %lu\n", delayTolerance);
-			printf("RCSwitch::timings[0]=%i\n", RCSwitch::timings[0]);
-			printf("RCSwitch::timings[1]=%i\n", RCSwitch::timings[1]);
-			printf("RCSwitch::timings[2]=%i\n", RCSwitch::timings[2]);
-			printf("RCSwitch::timings[3]=%i\n\n", RCSwitch::timings[3]);*/
-//			printf("RCSwitch::timings[4]=%i\n\n", RCSwitch::timings[4]);
 
       for (int i = 1; i<changeCount ; i=i+2) {
           if (RCSwitch::timings[i] > delay-delayTolerance 
@@ -792,8 +785,6 @@ void handleInterrupt (void) {
     RCSwitch::timings[changeCount++] = duration;
   }
   lastTime = time; 
-
-
 
 
 }

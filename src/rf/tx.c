@@ -1,7 +1,7 @@
 #include "tx.h"
 
 void tx_data (protocol_t * p)
-{
+{ 
     switch (p->type)
     {
         case PROTOCOL1:

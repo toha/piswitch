@@ -1,17 +1,19 @@
 #ifndef _PROTOCOL3_H_
 #define _PROTOCOL3_H_
 
+#include <stdio.h>
+#include "../helper.h"
 
 typedef struct
 {
-	unsigned long network;
+	unsigned int network;
 	unsigned int address;
-	unsigned int broadcast;
 	unsigned int state;
-	unsigned int dimmer;		
 } protocol3;
 
-void tx_data_protocol3 (protocol3* data);
-
+int tx_data_protocol3 (protocol3* self);
+protocol3* rx_data_protocol3 (unsigned int timings[], int change_count);
+int rx_decode_protocol3(protocol3* self, unsigned long code);
+protocol3* json2protocol3 (protocol3* self);
 
 #endif

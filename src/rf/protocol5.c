@@ -57,28 +57,22 @@ protocol5* rx_data_protocol5 (unsigned int* timings, int change_count)
 }
 
 
-static int rx_decode_protocol5(protocol5* self, unsigned long code) 
+int rx_decode_protocol5 (protocol5* self, unsigned long code) 
 {
 	unsigned int offsetnet = 8;
-	unsigned long network = (code & (((1 << 12) - 1) << offsetnet)) >> offsetnet;
+	self->network = (code & (((1 << 12) - 1) << offsetnet)) >> offsetnet;
 
 	unsigned int offsetadr = 6;
-	unsigned int address = (code & (((1 << 2) - 1) << offsetadr)) >> offsetadr;
+	self->address = (code & (((1 << 2) - 1) << offsetadr)) >> offsetadr;
 
 	unsigned int offsetbr = 5;
-	unsigned int broadcast = (code & (((1 << 1) - 1) << offsetbr)) >> offsetbr;
+	self->broadcast = (code & (((1 << 1) - 1) << offsetbr)) >> offsetbr;
 
 	unsigned int offsetonoff = 4;
-	unsigned int state = (code & (((1 << 1) - 1) << offsetonoff)) >> offsetonoff;
+	self->state = (code & (((1 << 1) - 1) << offsetonoff)) >> offsetonoff;
 
 	unsigned int offsetdi = 3;
-	unsigned int dimmer = (code & (((1 << 1) - 1) << offsetdi)) >> offsetdi;		
-
-	self->network = network;
-	self->address = address;
-	self->broadcast = broadcast;
-	self->state = state;
-	self->dimmer = dimmer;
+	self->dimmer = (code & (((1 << 1) - 1) << offsetdi)) >> offsetdi;		
 
 	return 0;
 }

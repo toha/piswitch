@@ -15,6 +15,7 @@ typedef struct
 
 int tx_data_protocol5 (protocol5* self);
 protocol5* rx_data_protocol5 (unsigned int timings[], int change_count);
-static int rx_decode_protocol5(protocol5* self, unsigned long code);
+int rx_decode_protocol5(protocol5* self, unsigned long code);
+protocol5* json2protocol5 (protocol5* self);
 
 #endif
