@@ -16,7 +16,7 @@ int testsend(struct mg_event *event) {
 			p5->network = 2716;
 			p5->address = 2;
 			p5->broadcast = 0;
-			p5->state = 1;
+			p5->state = 0;
 			p5->dimmer = 0;
 			p->p5 = *p5;
 			tx_data_n_times(p, 3);
@@ -26,7 +26,11 @@ int testsend(struct mg_event *event) {
 
 		free(p);
 	}
-		
+
+/*	for (int i=0; i<99000000; i++) {
+		int j = ((i+1)*8)/2;
+		int k = j+j;
+	}		*/
 	return 0;
 
 }

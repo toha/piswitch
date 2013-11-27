@@ -1,7 +1,5 @@
 #include "piswitch.h"
 #include <wiringPi.h>
-#include <sys/ipc.h>;
-#include <sys/msg.h>;
 
 int main()
 {

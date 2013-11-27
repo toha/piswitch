@@ -2,8 +2,11 @@
 #define _TX_H_
 
 #include <stdio.h>
+#include <pthread.h>
 #include "protocol.h"
 #include <wiringPi.h>
+
+
 
 void tx_init();
 void tx_data (protocol_t * p);

@@ -37,11 +37,12 @@ void tx_data (protocol_t * p)
 
 void tx_data_n_times (protocol_t * p, int n)
 { 
+	pthread_mutex_lock(&tx_mutex);
 	for (int i=0; i<n; i++) {
-		printf("senden: %d\n", i);
 		tx_data(p);
-		delayMicroseconds(1000*5*1000);
+		delayMicroseconds(1000*10);
 	}
+	pthread_mutex_unlock(&tx_mutex);
 }
 
 void tx_high_low(int pulse_length, int num_high_pulses, int num_low_pulses) {
