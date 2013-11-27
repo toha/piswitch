@@ -23,7 +23,7 @@ int main()
 	} else if (recpid > 0) { 
 		// parent
 
-		/*sleep(3);
+		
 		protocol_t* test1;
 		test1 = (protocol_t*) malloc(sizeof *test1);
 		if (test1 != NULL) {
@@ -34,7 +34,7 @@ int main()
 			b->network = 2716;
 			b->address = 2;
 			b->broadcast = 0;
-			b->state = 0;
+			b->state = 1;
 			b->dimmer = 0;
 
 			test1->p5 = *b;
@@ -48,7 +48,7 @@ int main()
 			free(b);
 		}
 
-		free(test1);*/
+		free(test1);
 
 		while(1) {
 			sleep(1);
