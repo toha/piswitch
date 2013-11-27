@@ -1,30 +1,27 @@
 #include "piswitch.h"
 #include <wiringPi.h>
-#include <sys/ipc.h>; 
-#include <sys/msg.h>; 
+#include <sys/ipc.h>;
+#include <sys/msg.h>;
 
 int main()
 {
 	printf("\nPiSwitch\n");
 
-	startweb();
-
 	wiringPiSetup () ;
 	tx_init();
-
-	int msqid = msgget(4, (IPC_CREAT | IPC_EXCL | 0400));
-	printf("msqid: %d\n", msqid);
+	startweb();
 
 	int recpid;
 	recpid = fork();
 	if (recpid == 0) {
 		// child
 		startRfReceive();
+
+
 	} else if (recpid > 0) { 
 		// parent
-
 		
-		protocol_t* test1;
+		/*protocol_t* test1;
 		test1 = (protocol_t*) malloc(sizeof *test1);
 		if (test1 != NULL) {
 			test1->type = PROTOCOL5;
@@ -34,11 +31,10 @@ int main()
 			b->network = 2716;
 			b->address = 2;
 			b->broadcast = 0;
-			b->state = 1;
+			b->state = 0;
 			b->dimmer = 0;
 
 			test1->p5 = *b;
-
 			for (int i=0; i<3; i++) {
 				printf("senden\n");
 				tx_data(test1);
@@ -48,7 +44,7 @@ int main()
 			free(b);
 		}
 
-		free(test1);
+		free(test1);*/
 
 		while(1) {
 			sleep(1);

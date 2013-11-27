@@ -1,6 +1,9 @@
 #include "tx.h"
+#include <pthread.h>
 
 #define TX_PIN 0
+
+pthread_mutex_t tx_mutex;
 
 void tx_init() 
 {
@@ -30,6 +33,15 @@ void tx_data (protocol_t * p)
             printf("ERRRRRROR\n");
             break;
     }
+}
+
+void tx_data_n_times (protocol_t * p, int n)
+{ 
+	for (int i=0; i<n; i++) {
+		printf("senden: %d\n", i);
+		tx_data(p);
+		delayMicroseconds(1000*5*1000);
+	}
 }
 
 void tx_high_low(int pulse_length, int num_high_pulses, int num_low_pulses) {
