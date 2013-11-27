@@ -1,5 +1,12 @@
 #include "tx.h"
 
+#define TX_PIN 0
+
+void tx_init() 
+{
+	pinMode(TX_PIN, OUTPUT);
+}
+
 void tx_data (protocol_t * p)
 { 
     switch (p->type)
@@ -20,9 +27,45 @@ void tx_data (protocol_t * p)
 			tx_data_protocol5(&p->p5);
             break;
         default:
-						printf("%d\n", p->type);
-						printf("%d\n", PROTOCOL5);
             printf("ERRRRRROR\n");
             break;
     }
+}
+
+void tx_high_low(int pulse_length, int num_high_pulses, int num_low_pulses) {
+
+	int pin = TX_PIN;
+	if (num_high_pulses > 0) {
+		digitalWrite(pin, HIGH);
+		delayMicroseconds( pulse_length * num_high_pulses);
+	}
+	if (num_low_pulses > 0) {
+		digitalWrite(pin, LOW);
+		delayMicroseconds( pulse_length * num_low_pulses);
+	}
+}
+
+void tx_low_high(int pulse_length, int num_low_pulses, int num_high_pulses) {
+
+	int pin = TX_PIN;
+	if (num_low_pulses > 0) {
+		digitalWrite(pin, LOW);
+		delayMicroseconds( pulse_length * num_low_pulses);
+	}
+	if (num_high_pulses > 0) {
+		digitalWrite(pin, HIGH);
+		delayMicroseconds( pulse_length * num_high_pulses);
+	}
+}
+
+void tx_low(int pulse_length) {
+	int pin = TX_PIN;
+	digitalWrite(pin, LOW);
+	delayMicroseconds(pulse_length);
+}
+
+void tx_high(int pulse_length) {
+	int pin = TX_PIN;
+	digitalWrite(pin, HIGH);
+	delayMicroseconds(pulse_length);
 }

@@ -1,8 +1,10 @@
 #include "rx.h"
 #include "protocol.h"
-#include "protocol5.h"
+
 
 #define RX_MAX_INTERRUPT 67
+#define RX_PIN 7
+
 static unsigned int rx_interrupts[RX_MAX_INTERRUPT]; 
 static unsigned int rx_irq_duration = 0;
 static unsigned int rx_irq_change_count = 0;
@@ -19,6 +21,7 @@ void handleInterrupt (void) {
     rx_irq_repeat_count++;
     rx_irq_change_count--;
     if (rx_irq_repeat_count == 2) {
+printf("rx_irq_repeat_count == 2\n");
 		protocol5* prot5data;
 		protocol4* prot4data;
 		protocol1* prot1data;
@@ -26,7 +29,7 @@ void handleInterrupt (void) {
 		protocol2* prot2data;
 
 		bool found_something = true;
-
+		
 		prot5data = rx_data_protocol5(rx_interrupts, rx_irq_change_count);
 		if (prot5data == NULL) {
 			prot4data = rx_data_protocol4(rx_interrupts, rx_irq_change_count);
@@ -52,6 +55,9 @@ void handleInterrupt (void) {
 		if (prot5data != NULL) {
 			rx_current_data->type = 5;
 			rx_current_data->p5 = *prot5data;
+
+			//tx_data_protocol5(prot5data);
+
 		} else if (prot4data != NULL) {
 			rx_current_data->type = 4;
 			rx_current_data->p4 = *prot4data;
@@ -64,6 +70,10 @@ void handleInterrupt (void) {
 		} else if (prot2data != NULL) {
 			rx_current_data->type = 2;
 			rx_current_data->p2 = *prot2data;
+		}
+
+		if (found_something) {
+			printf("etwas empfangen\n\n");
 		}
 		
 
@@ -98,8 +108,8 @@ void recvCallback(unsigned int protocol, unsigned long data)
 
 int startRfReceive()
 {
-	wiringPiSetup();
-	wiringPiISR (7, INT_EDGE_BOTH, &handleInterrupt) ;
+	//wiringPiSetup();
+	wiringPiISR (RX_PIN, INT_EDGE_BOTH, &handleInterrupt) ;
 
 	while (1) {
 		sleep(1);
