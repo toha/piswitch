@@ -100,14 +100,5 @@ json_t* json_encode_protocol (protocol_t* self)
 
 	return root;
 
-/*	char* s = json_dumps(root, 0);
-	if (s == NULL) {
-		printf("fehler\n");
-		return "";
-	}
-	else {
-		printf("%s\n", s );	
-		return s;
-	}*/
 	
 } 

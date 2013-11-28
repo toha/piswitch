@@ -87,7 +87,6 @@ protocol5* rx_data_protocol5 (unsigned int* timings, int change_count)
 	}
 }
 
-
 int decode_protocol5 (protocol5* self, unsigned long code) 
 {
 	printf("\n\ndecode\n");

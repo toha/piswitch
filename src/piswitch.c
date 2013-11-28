@@ -16,7 +16,6 @@ int main()
 		// child
 		startRfReceive();
 
-
 	} else if (recpid > 0) { 
 		// parent
 		
@@ -45,8 +44,6 @@ int main()
 
 		free(test1);*/
 
-
-
 		/*char* jsontest = "{\r\n"
 		  "\"network\": 2115,\r\n"
 		  "\"address\": 2,\r\n"
@@ -71,10 +68,10 @@ int main()
 		char* jsontest = 
 			"{\r\n"
 			  "\"type\": 5,\r\n"
-			  "\"p1\": null,\r\n"
+			 /* "\"p1\": null,\r\n"
 			  "\"p2\": null,\r\n"
 			  "\"p3\": null,\r\n"
-			  "\"p4\": null,\r\n"
+			  "\"p4\": null,\r\n"*/
 			  "\"p5\": {\r\n"
 				  "\"network\": 2115,\r\n"
 				  "\"address\": 2,\r\n"
@@ -105,23 +102,18 @@ int main()
 			json_t* r = json_encode_protocol(a);
 
 			char* s = json_dumps(r, 0);
-				if (s == NULL) {
-					printf("fehler\n");
-				}
-				else {
-					printf("%s\n", s );	
-				}
-
+			if (s == NULL) {
+				printf("fehler\n");
+			}
+			else {
+				printf("%s\n", s );	
+			}
 		}
-
-
-
 
 		while(1) {
 			sleep(1);
 		}
 
-		
 	} else {   
 	  fprintf (stderr, "Error");
 	  exit (1);
