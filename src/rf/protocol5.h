@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "../helper.h"
+#include <jansson.h>
 
 typedef struct
 {
@@ -22,7 +23,9 @@ void tx_sync_protocol5();
 
 int decode_protocol5(protocol5* self, unsigned long code);
 unsigned long encode_protocol5 (protocol5* self);
-protocol5* json2protocol5 (protocol5* self);
 unsigned int calc_checksum_protocol5(unsigned int payload);
+
+int json_decode_protocol5 (protocol5* self, json_t* root);
+json_t* json_encode_protocol5 (protocol5* self);
 
 #endif

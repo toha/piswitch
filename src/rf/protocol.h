@@ -6,6 +6,7 @@
 #include "protocol3.h"
 #include "protocol4.h"
 #include "protocol5.h"
+#include <jansson.h>
 
 enum
 {
@@ -27,5 +28,6 @@ typedef struct
     protocol5 p5;
 } protocol_t;
 
-
+int json_decode_protocol (protocol_t* self, json_t* root);
+json_t* json_encode_protocol (protocol_t* self);
 #endif

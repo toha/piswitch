@@ -63,7 +63,19 @@ int rx_decode_protocol2 (protocol2* self, unsigned long code)
 	return 0;
 }
 
-protocol2* json2protocol2 (protocol2* self) 
+int json_decode_protocol2 (protocol2* self, json_t* root) 
 {
-	return NULL;
+	
+	return 0;
+} 
+
+/**
+ protocol5 2 json
+*/
+char* json_encode_protocol2 (protocol2* self) 
+{
+
+	char* a = "Hallo\0";
+
+	return a;
 } 

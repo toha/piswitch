@@ -1,6 +1,7 @@
 #include "protocol5.h"
 #include "tx.h"
 
+
 #define PROTOCOL5_TOLERANCE 40
 #define PROTOCOL5_PULSE_LENGTH 670
 #define PROTOCOL5_BITS_PER_FRAME 21
@@ -140,7 +141,67 @@ unsigned int calc_checksum_protocol5(unsigned int payload) {
   return cs; 
 }
 
-protocol5* json2protocol5 (protocol5* self) 
+/**
+	json 2 protocol5
+*/
+int json_decode_protocol5 (protocol5* self, json_t* root) 
 {
-	return NULL;
+  json_error_t error;
+
+	if (!root) {
+		  fprintf(stderr, "error: on line %d: %s\n", error.line, error.text);
+		  return 1;
+	}
+
+	if (!json_is_object(root)) {
+		  fprintf(stderr, "error: root is not an object\n");
+			json_decref(root);
+			json_decref(root);
+		  return 1;
+	}
+
+	json_t *network, *address, *broadcast, *state, *dimmer;
+
+	// network
+  network = json_object_get(root, "network");
+	// address
+  address = json_object_get(root, "address");
+	// broadcast
+  broadcast = json_object_get(root, "broadcast");
+	// state
+  state = json_object_get(root, "state");
+	// dimmer
+  dimmer = json_object_get(root, "dimmer");
+
+  if(!json_is_number(network) || !json_is_number(address) || !json_is_number(broadcast) || 
+		 !json_is_number(state) || !json_is_number(dimmer))
+  {
+      fprintf(stderr, "error: something is not a number\n");
+      json_decref(root);
+      return 1;
+  }
+
+	self->network = json_number_value(network);
+	self->address = json_number_value(address);
+	self->broadcast = json_number_value(broadcast);
+	self->state = json_number_value(state);
+	self->dimmer = json_number_value(dimmer);
+	
+	return 0;
+} 
+
+/**
+ protocol5 2 json
+*/
+json_t* json_encode_protocol5 (protocol5* self) 
+{
+	json_t* root = json_pack("{s:i,s:i,s:i,s:i,s:i}", 
+		"network", self->network,
+		"address", self->address,
+		"broadcast", self->broadcast,
+		"state", self->state,
+		"dimmer", self->dimmer
+	);
+	return root;
+	char* s = json_dumps(root, 0);
 } 

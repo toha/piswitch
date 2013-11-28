@@ -27,14 +27,8 @@ int testsend(struct mg_event *event) {
 		free(p);
 	}
 
-/*	for (int i=0; i<99000000; i++) {
-		int j = ((i+1)*8)/2;
-		int k = j+j;
-	}		*/
 	return 0;
-
 }
-
 
 static int event_handler(struct mg_event *event) {
 
