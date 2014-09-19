@@ -8,15 +8,6 @@
 #include "protocol5.h"
 #include <jansson.h>
 
-enum
-{
-	PROTOCOL1,
-	PROTOCOL2,
-	PROTOCOL3,
-	PROTOCOL4,
-	PROTOCOL5
-};
-
 
 typedef struct
 {

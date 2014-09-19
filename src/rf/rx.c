@@ -21,12 +21,11 @@ void handleInterrupt (void) {
     rx_irq_repeat_count++;
     rx_irq_change_count--;
     if (rx_irq_repeat_count == 2) {
-printf("rx_irq_repeat_count == 2\n");
-		protocol5* prot5data;
-		protocol4* prot4data;
-		protocol1* prot1data;
-		protocol3* prot3data;
-		protocol2* prot2data;
+		protocol5* prot5data = NULL;
+		protocol4* prot4data = NULL;
+		protocol1* prot1data = NULL;
+		protocol3* prot3data = NULL;
+		protocol2* prot2data = NULL;
 
 		bool found_something = true;
 		
@@ -64,6 +63,7 @@ printf("rx_irq_repeat_count == 2\n");
 		} else if (prot1data != NULL) {
 			rx_current_data->type = 1;
 			rx_current_data->p1 = *prot1data;
+
 		} else if (prot3data != NULL) {
 			rx_current_data->type = 3;
 			rx_current_data->p3 = *prot3data;
@@ -74,6 +74,8 @@ printf("rx_irq_repeat_count == 2\n");
 
 		if (found_something) {
 			printf("etwas empfangen\n\n");
+			printProtocol(rx_current_data);
+
 		}
 		
 
@@ -91,7 +93,7 @@ printf("rx_irq_repeat_count == 2\n");
     rx_irq_change_count = 0;
     rx_irq_repeat_count = 0;
   }
-  if (rx_irq_duration > 150) {
+  if (rx_irq_duration > 50) {
     rx_interrupts[rx_irq_change_count++] = rx_irq_duration;
   }
   rx_irq_lastTime = time; 
@@ -101,7 +103,7 @@ printf("rx_irq_repeat_count == 2\n");
 
 void recvCallback(unsigned int protocol, unsigned long data)
 {
-	printf("protocol: %d, value: %lu\n", protocol, data);
+	printf("protocol: %d, value: %lu\n", protocol, data); 
 	printBits(sizeof(data), &data);
 }
 

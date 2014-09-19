@@ -12,38 +12,43 @@ void tx_init()
 
 void tx_data (protocol_t * p)
 { 
-  switch (p->type)
-  {
-    case PROTOCOL1:
-			tx_data_protocol1(&p->p1);
-      break;
-    case PROTOCOL2:
-			tx_data_protocol2(&p->p2);
-      break;
-    case PROTOCOL3:
-			tx_data_protocol3(&p->p3);
-      break;
-    case PROTOCOL4:
-			tx_data_protocol4(&p->p4);
-      break;
-    case PROTOCOL5:
-			tx_data_protocol5(&p->p5);
-      break;
-    default:
-      printf("ERRRRRROR\n");
-  		break;
-  }
+		pthread_mutex_lock(&tx_mutex);
+    switch (p->type)
+    {
+      case 1:
+				tx_data_protocol1(&p->p1);
+        break;
+      case 2:
+				tx_data_protocol2(&p->p2);
+        break;
+      case 3:
+				tx_data_protocol3(&p->p3);
+        break;
+      case 4:
+				tx_data_protocol4(&p->p4);
+        break;
+      case 5:
+				tx_data_protocol5(&p->p5);
+        break;
+      default:
+        printf("ERRRRRROR\n");
+    		break;
+    }
+
+		pthread_mutex_unlock(&tx_mutex);
 }
 
-void tx_data_n_times (protocol_t * p, int n)
+/*void tx_data_n_times (protocol_t * p, int n)
 { 
 	pthread_mutex_lock(&tx_mutex);
-	for (int i=0; i<n; i++) {
 		tx_data(p);
-		delayMicroseconds(1000*10);
+
+	for (int i=0; i<200; i++) {
+		tx_low(1000);
 	}
 	pthread_mutex_unlock(&tx_mutex);
-}
+	
+}*/
 
 void tx_high_low(int pulse_length, int num_high_pulses, int num_low_pulses) {
 

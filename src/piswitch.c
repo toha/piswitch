@@ -17,7 +17,7 @@ int main()
 		startRfReceive();
 
 	} else if (recpid > 0) { 
-		// parent
+		// parent 
 		
 		/*protocol_t* test1;
 		test1 = (protocol_t*) malloc(sizeof *test1);
@@ -65,13 +65,13 @@ int main()
 		}*/
 
 
-		char* jsontest = 
+		/*char* jsontest = 
 			"{\r\n"
 			  "\"type\": 5,\r\n"
-			 /* "\"p1\": null,\r\n"
+			  "\"p1\": null,\r\n"
 			  "\"p2\": null,\r\n"
 			  "\"p3\": null,\r\n"
-			  "\"p4\": null,\r\n"*/
+			  "\"p4\": null,\r\n"
 			  "\"p5\": {\r\n"
 				  "\"network\": 2115,\r\n"
 				  "\"address\": 2,\r\n"
@@ -108,7 +108,7 @@ int main()
 			else {
 				printf("%s\n", s );	
 			}
-		}
+		}*/
 
 		while(1) {
 			sleep(1);

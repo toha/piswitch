@@ -14,8 +14,9 @@ typedef struct
 
 int tx_data_protocol1 (protocol1* self);
 protocol1* rx_data_protocol1 (unsigned int timings[], int change_count);
-int rx_decode_protocol1(protocol1* self, unsigned long code);
+int decode_protocol1(protocol1* self, unsigned long code);
+unsigned long encode_protocol1 (protocol1* self);
 int json_decode_protocol1 (protocol1* self, json_t* root);
-char* json_encode_protocol1 (protocol1* self);
+json_t* json_encode_protocol1 (protocol1* self);
 
 #endif

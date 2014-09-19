@@ -9,19 +9,22 @@
 int tx_data_protocol5 (protocol5* self) 
 {
 	unsigned long code = encode_protocol5(self);
-	
-	// send sync bit
-	tx_sync_protocol5();
 
-	//iterate over bits
-	for (int k = PROTOCOL5_BITS_PER_FRAME-1; k>=0; k--) {
+	for (int i=0; i<10; i++) {
+		// send sync bit
+		tx_sync_protocol5();
 
-		unsigned int bit = (code & ( 1 << k )) >> k;
-		if (bit == 1) {
-			tx_1_protocol5();
-		} else {
-			tx_0_protocol5();
+		//iterate over bits
+		for (int k = PROTOCOL5_BITS_PER_FRAME-1; k>=0; k--) {
+
+			unsigned int bit = (code & ( 1 << k )) >> k;
+			if (bit == 1) {
+				tx_1_protocol5();
+			} else {
+				tx_0_protocol5();
+			}
 		}
+
 	}
 
 	// 5 pulses low at the end
@@ -161,15 +164,10 @@ int json_decode_protocol5 (protocol5* self, json_t* root)
 
 	json_t *network, *address, *broadcast, *state, *dimmer;
 
-	// network
   network = json_object_get(root, "network");
-	// address
   address = json_object_get(root, "address");
-	// broadcast
   broadcast = json_object_get(root, "broadcast");
-	// state
   state = json_object_get(root, "state");
-	// dimmer
   dimmer = json_object_get(root, "dimmer");
 
   if(!json_is_number(network) || !json_is_number(address) || !json_is_number(broadcast) || 
