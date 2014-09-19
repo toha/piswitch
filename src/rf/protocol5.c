@@ -200,5 +200,4 @@ json_t* json_encode_protocol5 (protocol5* self)
 		"dimmer", self->dimmer
 	);
 	return root;
-	char* s = json_dumps(root, 0);
 } 

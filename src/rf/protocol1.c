@@ -20,7 +20,7 @@ void tx_0_protocol1 () {
 
 void tx_sync_protocol1 () {
 	int pulse_length = PROTOCOL1_PULSE_LENGTH;
-	tx_low(PROTOCOL1_PULSE_LENGTH * PROTOCOL1_TX_SYNC_PULSE_RATIO);
+	tx_low(pulse_length * PROTOCOL1_TX_SYNC_PULSE_RATIO);
 }
  
 int tx_data_protocol1 (protocol1* self) 
@@ -85,7 +85,7 @@ protocol1* rx_data_protocol1 (unsigned int* timings, int change_count)
 	if (change_count/2 >= 15 && code != 0) {
 		protocol1* proto;
 		proto = (protocol1*) malloc(sizeof *proto);
-		int res = decode_protocol1(proto,code);
+		decode_protocol1(proto,code);
 
 		return proto;
 
@@ -178,5 +178,5 @@ json_t* json_encode_protocol1 (protocol1* self)
 		"state", self->state
 	);
 	return root;
-	char* s = json_dumps(root, 0);
+	json_dumps(root, 0);
 } 

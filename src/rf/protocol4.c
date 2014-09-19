@@ -1,4 +1,5 @@
 #include "protocol4.h"
+#include "tx.h"
 
 #define PROTOCOL4_TOLERANCE 60
 #define PROTOCOL4_SYNC_PULSE_RATIO 15

@@ -47,17 +47,17 @@ int json_decode_protocol (protocol_t* self, json_t* root)
 		printf("proto1!!!\n");
 		protocol1* p1;
 		p1 = (protocol1*) malloc(sizeof *p1);
-		int p1ret = json_decode_protocol1 (p1, json_p1);
+		json_decode_protocol1 (p1, json_p1);
 		self->p1 = *p1;
 	} else if (self->type == 4) {
 		protocol4* p4;
 		p4 = (protocol4*) malloc(sizeof *p4);
-		int p4ret = json_decode_protocol4 (p4, json_p4);
+		json_decode_protocol4 (p4, json_p4);
 		self->p4 = *p4;
 	} else if (self->type == 5) {
 		protocol5* p5;
 		p5 = (protocol5*) malloc(sizeof *p5);
-		int p5ret = json_decode_protocol5 (p5, json_p5);
+		json_decode_protocol5 (p5, json_p5);
 		self->p5 = *p5;
 	}
 	
@@ -127,9 +127,9 @@ void printProtocol(protocol_t* proto)
 	} else if(proto->type == 4) {
 		printf("network: %d\n", proto->p4.network);
 		printf("address: %d\n", proto->p4.address);
-		printf("magic: %d\n", proto->p4.magic);	
+		printf("magic: %lu\n", proto->p4.magic);	
 	} else if(proto->type == 5) {
-		printf("network: %d\n", proto->p5.network);
+		printf("network: %lu\n", proto->p5.network);
 		printf("address: %d\n", proto->p5.address);
 		printf("broadcast: %d\n", proto->p5.broadcast);
 		printf("state: %d\n", proto->p5.state);

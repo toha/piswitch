@@ -6,7 +6,7 @@ struct mg_context *webctx;
 
 int http_switch(struct mg_event *event) {
 
-	char post_data[1024], input1[sizeof(post_data)], input2[sizeof(post_data)];
+	char post_data[1024];
 	int post_data_len;
 	post_data_len = mg_read(event->conn, post_data, sizeof(post_data));
 	printf("%s\n", post_data);
@@ -33,12 +33,12 @@ int http_switch(struct mg_event *event) {
 	int content_length = snprintf(content, sizeof(content), "ok");
 
   	mg_printf(event->conn,
-      "HTTP/1.1 200 OK\r\n"
-      "Content-Type: text/plain\r\n"
-      "Content-Length: %d\r\n" // Always set Content-Length
-      "\r\n"
-      "%s",
-      content_length, content);
+		"HTTP/1.1 200 OK\r\n"
+		"Content-Type: text/plain\r\n"
+		"Content-Length: %d\r\n" // Always set Content-Length
+		"\r\n"
+		"%s",
+		content_length, content);
 
 
 	return 0;
@@ -46,31 +46,31 @@ int http_switch(struct mg_event *event) {
 
 static int event_handler(struct mg_event *event) {
 
-  if (event->type == MG_REQUEST_BEGIN) {
-    
+	if (event->type == MG_REQUEST_BEGIN) {
+	  
 		if (strcmp(event->request_info->uri, "/switch") == 0) {
-				return http_switch(event);
+			return http_switch(event);
 		} else {
 
-		char content[100];
-		  int content_length = snprintf(content, sizeof(content),
-		      "Hello from mongoose! Requested: [%s] [%s]",
-		      event->request_info->request_method, event->request_info->uri);
+			char content[100];
+			int content_length = snprintf(content, sizeof(content),
+			    "Hello from mongoose! Requested: [%s] [%s]",
+			    event->request_info->request_method, event->request_info->uri);
 
-		  mg_printf(event->conn,
-		      "HTTP/1.1 200 OK\r\n"
-		      "Content-Type: text/plain\r\n"
-		      "Content-Length: %d\r\n" // Always set Content-Length
-		      "\r\n"
-		      "%s",
-		      content_length, content);
+			mg_printf(event->conn,
+			    "HTTP/1.1 200 OK\r\n"
+			    "Content-Type: text/plain\r\n"
+			    "Content-Length: %d\r\n" // Always set Content-Length
+			    "\r\n"
+			    "%s",
+			    content_length, content);
 
-		  return 1;
+			return 1;
 		}
-  }
+	}
 
-  // We do not handle any other event
-  return 0;
+	// We do not handle any other event
+	return 0;
 }
 
 void startweb(void) {
@@ -81,8 +81,8 @@ void startweb(void) {
 		NULL
 	};
 
-  // Start the web server.
-  webctx = mg_start(options, &event_handler, NULL);
+	// Start the web server.
+	webctx = mg_start(options, &event_handler, NULL);
 }
 
 void stopweb(void) {
