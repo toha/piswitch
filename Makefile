@@ -7,7 +7,7 @@ ARCH=arm
 #CC=${CROSS_COMPILE}gcc
 CC=gcc
 
-PIFLAGS=-Isrc/lib/mongoose -pthread -g
+PIFLAGS=-Isrc/lib/mongoose -DMONGOOSE_NO_THREADS -pthread -g
 #CFLAGS=-W -Wall -fpermissive
 CFLAGS=-W -Wall -std=c99
 LDFLAGS=-ldl -L/usr/local/lib -lwiringPi -lwiringPiDev -lpthread -lm -ljansson

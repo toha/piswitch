@@ -51,7 +51,7 @@ int recCb(unsigned int *a) {
 }
 
 int http_rec(struct mg_event *event) {
-	printf("http rec\n");
+	printf("\http rec - pid: %d\n", getpid() );
 
 	startRecordRfSignal(&recCb);
 

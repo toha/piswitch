@@ -47,7 +47,7 @@ int startRfListenForDevices()
 }
 
 void handleInterrupt(void) { 
-	printf("handleInterrupt() %d\n", rx_mode);
+	//printf("handleInterrupt() rx_mode: %d    pid: %d\n", rx_mode, getpid());
     switch (rx_mode)
     {
       case 0:
@@ -69,7 +69,7 @@ void handleInterrupt(void) {
 
 
 void rxListenForDevicesInterruptHandler() {
-		printf("rxListenForDevicesInterruptHandler() %d\n", rx_mode);
+		//printf("rxListenForDevicesInterruptHandler() %d\n", rx_mode);
 
 	unsigned long time = getMicros();
 	rx_irq_duration = time - rx_irq_lastTime;
@@ -130,7 +130,7 @@ void rxListenForDevicesInterruptHandler() {
 			}
 
 			if (found_something) {
-				printf("Protocol received and recognized\n");
+				printf("\nProtocol received and recognized\n");
 				printProtocol(rx_current_data);
 
 			}
@@ -228,6 +228,7 @@ int pauseRf()
 
 int initRf()
 {
+	printf("initRf - pid: %d\n", getpid() );
 	wiringPiISR (RX_PIN, INT_EDGE_BOTH, &handleInterrupt) ;
     return 0;
 }
