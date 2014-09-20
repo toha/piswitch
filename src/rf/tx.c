@@ -1,4 +1,5 @@
 #include "tx.h"
+#include "rx.h"
 #include <pthread.h>
 
 #define TX_PIN 0
@@ -12,7 +13,8 @@ void tx_init()
 
 void tx_data (protocol_t * p)
 { 
-		pthread_mutex_lock(&tx_mutex);
+	pauseRf();
+	pthread_mutex_lock(&tx_mutex);
     switch (p->type)
     {
       case 1:
@@ -35,20 +37,9 @@ void tx_data (protocol_t * p)
     		break;
     }
 
-		pthread_mutex_unlock(&tx_mutex);
-}
-
-/*void tx_data_n_times (protocol_t * p, int n)
-{ 
-	pthread_mutex_lock(&tx_mutex);
-		tx_data(p);
-
-	for (int i=0; i<200; i++) {
-		tx_low(1000);
-	}
 	pthread_mutex_unlock(&tx_mutex);
-	
-}*/
+	resumeRf();
+}
 
 void tx_high_low(int pulse_length, int num_high_pulses, int num_low_pulses) {
 

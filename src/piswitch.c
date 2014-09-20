@@ -2,6 +2,8 @@
 #include <wiringPi.h>
 #include <jansson.h>
 
+
+
 int main()
 {
 	printf("\nPiSwitch\n");
@@ -14,7 +16,13 @@ int main()
 	recpid = fork();
 	if (recpid == 0) {
 		// child
-		startRfReceive();
+		initRf();
+
+		//startRecordRfSignal(&testFn);
+
+		while (1) {
+			sleep(1);
+		}	
 
 	} else if (recpid > 0) { 
 		// parent 

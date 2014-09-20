@@ -6,12 +6,16 @@
 #include <stdlib.h>
 #include <stdbool.h> 
 #include <wiringPi.h>
-//include "../lib/rcswitch-pi/RCSwitch.h"
+
 #include "../helper.h"
 
-void recvCallback(unsigned int, unsigned long);
-void protocolDecoder(unsigned int, unsigned long);
-int startRfReceive(void);
+
+int initRf(void);
+int pauseRf(void);
+int resumeRf(void);
+int stopRfListenForDevices(void);
+int startRfListenForDevices(void);
+int startRecordRfSignal(int (*rc)(unsigned int[]));
 
 
 #endif

@@ -44,12 +44,43 @@ int http_switch(struct mg_event *event) {
 	return 0;
 }
 
+
+int recCb(unsigned int *a) {
+	printf("Callback Fn\n");
+	return 0;
+}
+
+int http_rec(struct mg_event *event) {
+	printf("http rec\n");
+
+	startRecordRfSignal(&recCb);
+
+	char content[100];
+
+	int content_length = snprintf(content, sizeof(content), "ok");
+
+  	mg_printf(event->conn,
+		"HTTP/1.1 200 OK\r\n"
+		"Content-Type: text/plain\r\n"
+		"Content-Length: %d\r\n" // Always set Content-Length
+		"\r\n"
+		"%s",
+		content_length, content);
+
+
+	return 0;
+}
+
+
+
 static int event_handler(struct mg_event *event) {
 
 	if (event->type == MG_REQUEST_BEGIN) {
 	  
 		if (strcmp(event->request_info->uri, "/switch") == 0) {
 			return http_switch(event);
+		} else if (strcmp(event->request_info->uri, "/rec") == 0) {
+			return http_rec(event);
 		} else {
 
 			char content[100];
