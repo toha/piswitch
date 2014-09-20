@@ -6,7 +6,7 @@
 int testFn(protocol_t* rxdata) {
 	printf("Observer in piswitch\n");
 	printProtocol(rxdata);
-	//free(rxdata);
+	free(rxdata);
 }
 
 int main()
@@ -20,7 +20,7 @@ int main()
 	printf("call initRf - pid: %d\n", getpid() );
 	initRf();
 
-	//registerDeviceObserver(&testFn); 
+	registerDeviceObserver(&testFn); 
 
 	while(1) {
 		sleep(1);

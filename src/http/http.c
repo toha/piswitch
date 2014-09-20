@@ -29,9 +29,7 @@ int http_switch(struct mg_event *event) {
 	free(proto);
 
 	char content[100];
-
 	int content_length = snprintf(content, sizeof(content), "ok");
-
   	mg_printf(event->conn,
 		"HTTP/1.1 200 OK\r\n"
 		"Content-Type: text/plain\r\n"
@@ -43,9 +41,6 @@ int http_switch(struct mg_event *event) {
 
 	return 0;
 }
-
-
-
 
 int http_rec_rx_data(struct mg_event *event) {
 
@@ -104,15 +99,6 @@ int http_rx_device_protocol(struct mg_event *event) {
 		printf("Observer in http\n");
 
 		json_t* root = json_encode_protocol(rxdata);
-
-		/*json_t* root = json_pack("{s:s,s:[]}", 
-			"type", "recording",
-			"data"
-		);
-		json_t* jsondata = json_object_get(root, "data");
-		for (int i=0; i<RX_REC_DATA_SIZE; i++) {
-			json_array_append(jsondata, json_integer(rec_data[i]));
-		}*/
 
 		char* json_str = json_dumps(root, 0);
 

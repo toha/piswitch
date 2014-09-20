@@ -141,10 +141,20 @@ void rxListenForDevicesInterruptHandler() {
 
 				for (int i=0; i<RX_OBSERVER_MAX; i++) {
 					if(rxDeviceObserverList[i] != NULL) {
-						(*rxDeviceObserverList[i])(rx_current_data);
+						protocol_t* rx_current_data_copy = (protocol_t*) malloc(sizeof *rx_current_data);
+						rx_current_data_copy->type = rx_current_data->type;
+						rx_current_data_copy->p1 = rx_current_data->p1;
+						rx_current_data_copy->p2 = rx_current_data->p2;
+						rx_current_data_copy->p3 = rx_current_data->p3;
+						rx_current_data_copy->p4 = rx_current_data->p4;
+						rx_current_data_copy->p5 = rx_current_data->p5;
+
+						(*rxDeviceObserverList[i])(rx_current_data_copy);
+						
 					}
 				}			
 
+				free(rx_current_data);
 			}
 		
 			rx_irq_repeat_count = 0;
