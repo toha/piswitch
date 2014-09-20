@@ -1,12 +1,6 @@
 #include "rx.h"
 #include "protocol.h"
 
-
-#define RX_MAX_INTERRUPT 67
-#define RX_PIN 7
-
-#define RX_REC_DATA_SIZE 4096
-
 static unsigned int rx_interrupts[RX_MAX_INTERRUPT]; 
 static unsigned int rx_irq_duration = 0;
 static unsigned int rx_irq_change_count = 0;
@@ -18,13 +12,27 @@ static protocol_t* rx_current_data;
 // 0: do not receive
 // 1: permanent receive
 // 2: record signal
-static unsigned int rx_mode = 1;
+static unsigned int rx_mode = RX_MODE_DEFAULT;
 static unsigned int rx_mode_saved = 0;
 static int (*recordingCallback)(unsigned int[]);
 static unsigned int rec_cursor = 0;
 static unsigned int *rec_data = NULL;
 
+static int (*rxDeviceObserverList[RX_OBSERVER_MAX])(protocol_t*);
 
+int registerDeviceObserver(int (*rxDeviceObserver)(protocol_t*)) {
+	for (int i=0; i<RX_OBSERVER_MAX; i++) {
+		if(rxDeviceObserverList[i] == NULL) {
+			rxDeviceObserverList[i] = rxDeviceObserver;
+			return i;
+		}
+	}
+	return -1;
+}
+
+int removeDeviceObserver(int idx) {
+	rxDeviceObserverList[idx] = NULL;
+}
 
 int stopRfListenForDevices()
 {
@@ -69,8 +77,6 @@ void handleInterrupt(void) {
 
 
 void rxListenForDevicesInterruptHandler() {
-		//printf("rxListenForDevicesInterruptHandler() %d\n", rx_mode);
-
 	unsigned long time = getMicros();
 	rx_irq_duration = time - rx_irq_lastTime;
 
@@ -131,11 +137,16 @@ void rxListenForDevicesInterruptHandler() {
 
 			if (found_something) {
 				printf("\nProtocol received and recognized\n");
-				printProtocol(rx_current_data);
+				//printProtocol(rx_current_data);
+
+				for (int i=0; i<RX_OBSERVER_MAX; i++) {
+					if(rxDeviceObserverList[i] != NULL) {
+						(*rxDeviceObserverList[i])(rx_current_data);
+					}
+				}			
 
 			}
 		
-
 			rx_irq_repeat_count = 0;
 
 		}
@@ -162,8 +173,6 @@ void rxListenForDevicesInterruptHandler() {
 
 void recordRfSignalInterruptHandler() 
 {	
-			printf("recordRfSignalInterruptHandler() %d\n", rx_mode);
-
 	if (rec_cursor >= RX_REC_DATA_SIZE-1) {
 		completeRecording();
 		return;
@@ -175,8 +184,7 @@ void recordRfSignalInterruptHandler()
 
 	rec_data[rec_cursor] = rx_irq_duration;
 	rec_cursor++;
-	printf("rec duration %d\n", rx_irq_duration);
-
+	//printf("rec duration %d\n", rx_irq_duration);
 
 	rx_irq_lastTime = time;
 }
@@ -185,7 +193,7 @@ void completeRecording() {
 	printf("Complete Recordin\n");
 	rec_cursor = 0;
 	recordingCallback(rec_data);
-	rx_mode = 1;
+	rx_mode = RX_MODE_DEFAULT;
 
 }
 
